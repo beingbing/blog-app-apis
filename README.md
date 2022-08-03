@@ -31,3 +31,13 @@ table connected to your local SQL server.
 
 ### model mapper library
 to take data from one model into another
+
+### using Java Bean validation to validate data which need to be stored in DB
+Java bean is validated with JSP 380 known as Bean validation 2.0. All properties of Bean meet a specific
+criteria and data on which Bean validation is applied has to go through that validation check.
+
+Hibernate Validator is an implementation of JSP 380 (validation api).
+
+some common validation annotations are -
+#### @NotNull @Size @Min @Max @Email @NotEmpty
+
