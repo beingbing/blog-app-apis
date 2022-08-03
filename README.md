@@ -28,3 +28,6 @@ now, Controller will listen to the requests and will call implemented service cl
 
 now, RUN the project and hit the request from postman, to see your changes getting reflected in mySQL GUI
 table connected to your local SQL server.
+
+### model mapper library
+to take data from one model into another
