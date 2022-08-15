@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.payloads.ApiResponse;
@@ -53,8 +54,9 @@ public class PostController {
 	}
 	
 	@GetMapping("/posts")
-	public ResponseEntity<List<PostDto>> getAllPosts() {
-		List<PostDto> posts = this.postService.getAllPosts();
+	public ResponseEntity<List<PostDto>> getAllPosts(@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize, @RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy) {
+		// default page number starts from 0
+		List<PostDto> posts = this.postService.getAllPosts(pageNo, pageSize, sortBy);
 		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
 	}
 	
