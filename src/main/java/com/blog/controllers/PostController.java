@@ -38,9 +38,10 @@ public class PostController {
 			@PathVariable Integer userId,
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
 		   ) {
-		PostResponse res = this.postService.getPostsByUser(userId, pageNo, pageSize, sortBy);
+		PostResponse res = this.postService.getPostsByUser(userId, pageNo, pageSize, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
@@ -50,9 +51,10 @@ public class PostController {
 			@PathVariable Integer categoryId,
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
 		   ) {
-		PostResponse res = this.postService.getPostsByCategory(categoryId, pageNo, pageSize, sortBy);
+		PostResponse res = this.postService.getPostsByCategory(categoryId, pageNo, pageSize, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
@@ -66,10 +68,11 @@ public class PostController {
 	public ResponseEntity<PostResponse> getAllPosts(
 			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
 		   ) {
 		// default page number starts from 0
-		PostResponse res = this.postService.getAllPosts(pageNo, pageSize, sortBy);
+		PostResponse res = this.postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
