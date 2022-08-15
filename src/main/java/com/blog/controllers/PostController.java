@@ -1,5 +1,7 @@
 package com.blog.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,5 +90,12 @@ public class PostController {
 	public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable Integer postId) {
 		PostDto updatedPost = this.postService.updatePost(postDto, postId);
 		return new ResponseEntity<PostDto>(updatedPost, HttpStatus.OK);
+	}
+	
+	// search
+	@GetMapping("/posts/search/{keyword}")
+	public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable String keyword) {
+		List<PostDto> posts = this.postService.searchPosts(keyword);
+		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
 	}
 }

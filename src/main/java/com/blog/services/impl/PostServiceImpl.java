@@ -79,7 +79,6 @@ public class PostServiceImpl implements PostService {
 		postResponse.setContent(postDtoList);
 		postResponse.setPageNo(postsPage.getNumber());
 		postResponse.setPageSize(postsPage.getSize());
-//		postResponse.setSortBy(postsPage.getSort());
 		postResponse.setTotalElements(postsPage.getTotalElements());
 		postResponse.setTotalPages(postsPage.getTotalPages());
 		postResponse.setLastPage(postsPage.isLast());
@@ -104,7 +103,6 @@ public class PostServiceImpl implements PostService {
 		postResponse.setContent(postDtoList);
 		postResponse.setPageNo(postsPage.getNumber());
 		postResponse.setPageSize(postsPage.getSize());
-//		postResponse.setSortBy(postsPage.getSort());
 		postResponse.setTotalElements(postsPage.getTotalElements());
 		postResponse.setTotalPages(postsPage.getTotalPages());
 		postResponse.setLastPage(postsPage.isLast());
@@ -123,7 +121,6 @@ public class PostServiceImpl implements PostService {
 		postResponse.setContent(postDtoList);
 		postResponse.setPageNo(postsPage.getNumber());
 		postResponse.setPageSize(postsPage.getSize());
-//		postResponse.setSortBy(postsPage.getSort());
 		postResponse.setTotalElements(postsPage.getTotalElements());
 		postResponse.setTotalPages(postsPage.getTotalPages());
 		postResponse.setLastPage(postsPage.isLast());
@@ -132,8 +129,9 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDto> searchPosts(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Post> posts = this.postRepo.findByTitleContaining(keyword);
+		List<PostDto> postDtoList = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+		return postDtoList;
 	}
 
 }
