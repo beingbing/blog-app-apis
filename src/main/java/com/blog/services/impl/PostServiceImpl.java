@@ -16,6 +16,7 @@ import com.blog.entities.Post;
 import com.blog.entities.User;
 import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.payloads.PostDto;
+import com.blog.payloads.PostResponse;
 import com.blog.repositories.CategoryRepo;
 import com.blog.repositories.PostRepo;
 import com.blog.repositories.UserRepo;
@@ -67,12 +68,20 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
+	public PostResponse getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable page = PageRequest.of(pageNo, pageSize);
 		Page<Post> postsPage = this.postRepo.findAll(page);
 		List<Post> posts = postsPage.getContent();
 		List<PostDto> postDtoList = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-		return postDtoList;
+		PostResponse postResponse = new PostResponse();
+		postResponse.setContent(postDtoList);
+		postResponse.setPageNo(postsPage.getNumber());
+		postResponse.setPageSize(postsPage.getSize());
+//		postResponse.setSortBy(postsPage.getSort());
+		postResponse.setTotalElements(postsPage.getTotalElements());
+		postResponse.setTotalPages(postsPage.getTotalPages());
+		postResponse.setLastPage(postsPage.isLast());
+		return postResponse;
 	}
 
 	@Override
@@ -82,19 +91,39 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getPostsByCategory(Integer catId) {
+	public PostResponse getPostsByCategory(Integer catId, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable page = PageRequest.of(pageNo, pageSize);
 		Category category = this.categoryRepo.findById(catId).orElseThrow(() -> new ResourceNotFoundException("Category ", "Category Id", catId));
-		List<Post> posts = this.postRepo.findByCategory(category);
+		Page<Post> postsPage = this.postRepo.findByCategory(category, page);
+		List<Post> posts = postsPage.getContent();
 		List<PostDto> postDtoList = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-		return postDtoList;
+		PostResponse postResponse = new PostResponse();
+		postResponse.setContent(postDtoList);
+		postResponse.setPageNo(postsPage.getNumber());
+		postResponse.setPageSize(postsPage.getSize());
+//		postResponse.setSortBy(postsPage.getSort());
+		postResponse.setTotalElements(postsPage.getTotalElements());
+		postResponse.setTotalPages(postsPage.getTotalPages());
+		postResponse.setLastPage(postsPage.isLast());
+		return postResponse;
 	}
 
 	@Override
-	public List<PostDto> getPostsByUser(Integer userId) {
+	public PostResponse getPostsByUser(Integer userId, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable page = PageRequest.of(pageNo, pageSize);
 		User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User ", "User Id", userId));
-		List<Post> posts = this.postRepo.findByUser(user);
+		Page<Post> postsPage = this.postRepo.findByUser(user, page);
+		List<Post> posts = postsPage.getContent();
 		List<PostDto> postDtoList = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-		return postDtoList;
+		PostResponse postResponse = new PostResponse();
+		postResponse.setContent(postDtoList);
+		postResponse.setPageNo(postsPage.getNumber());
+		postResponse.setPageSize(postsPage.getSize());
+//		postResponse.setSortBy(postsPage.getSort());
+		postResponse.setTotalElements(postsPage.getTotalElements());
+		postResponse.setTotalPages(postsPage.getTotalPages());
+		postResponse.setLastPage(postsPage.isLast());
+		return postResponse;
 	}
 
 	@Override

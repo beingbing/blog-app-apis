@@ -1,7 +1,5 @@
 package com.blog.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.payloads.ApiResponse;
 import com.blog.payloads.PostDto;
+import com.blog.payloads.PostResponse;
 import com.blog.services.PostService;
 
 @RestController
@@ -35,16 +34,26 @@ public class PostController {
 	
 	// get posts by user
 	@GetMapping("/user/{userId}/posts")
-	public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Integer userId) {
-		List<PostDto> posts = this.postService.getPostsByUser(userId);
-		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getPostsByUser(
+			@PathVariable Integer userId,
+			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+		   ) {
+		PostResponse res = this.postService.getPostsByUser(userId, pageNo, pageSize, sortBy);
+		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
-	// get posts by user
+	// get posts by category
 	@GetMapping("/category/{categoryId}/posts")
-	public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable Integer categoryId) {
-		List<PostDto> posts = this.postService.getPostsByCategory(categoryId);
-		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getPostsByCategory(
+			@PathVariable Integer categoryId,
+			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+		   ) {
+		PostResponse res = this.postService.getPostsByCategory(categoryId, pageNo, pageSize, sortBy);
+		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
 	@GetMapping("/posts/{postId}")
@@ -54,10 +63,14 @@ public class PostController {
 	}
 	
 	@GetMapping("/posts")
-	public ResponseEntity<List<PostDto>> getAllPosts(@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize, @RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy) {
+	public ResponseEntity<PostResponse> getAllPosts(
+			@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy
+		   ) {
 		// default page number starts from 0
-		List<PostDto> posts = this.postService.getAllPosts(pageNo, pageSize, sortBy);
-		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
+		PostResponse res = this.postService.getAllPosts(pageNo, pageSize, sortBy);
+		return new ResponseEntity<PostResponse>(res, HttpStatus.OK);
 	}
 	
 	// delete post
